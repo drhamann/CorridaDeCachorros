@@ -7,7 +7,8 @@ public class Premio
         Posicao = posicao;
         ValorTotal = valorTotal;
         Apostadores = apostadores;
-        ValorParcial = ValorTotal / Apostadores?.Count > 0 ? Apostadores.Count : 1;
+
+        ValorParcial = ValorTotal / (Apostadores?.Count > 0 ? Apostadores.Count : 1);
         foreach (var apostador in Apostadores)
         {
             apostador.Saldo += ValorParcial;

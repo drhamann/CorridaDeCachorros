@@ -128,8 +128,9 @@ public class CorridaDeCachorro
 
         foreach (var apostador in Apostadores)
         {
-            resumoCorrida.AppendLine($"Apostador {apostador.Nome} ficou em {apostador.Saldo}");
+            resumoCorrida.AppendLine($"Apostador {apostador.Nome} ficou com saldo de {apostador.Saldo}");
         }
+
         return resumoCorrida.ToString();
 
 
