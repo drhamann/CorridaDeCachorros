@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{A7A7706E-A0FE-4390-AD8C-EE7D79298CC2}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1- Apresentação", "1- Apresentação", "{223F95DA-BDD6-4A0A-AB3F-CA4392F627B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2- Regras de negocio", "2- Regras de negocio", "{830C1952-62F9-4777-B8CA-D86641F8B401}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Acesso a dados", "3 - Acesso a dados", "{F23FE144-102A-48CA-B505-7F8DF8A902C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Testes", "4 - Testes", "{94F5171B-A347-46BE-A0D3-38363A2D50E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorridaDeCachorros.Console", "CorridaDeCachorros.Console\CorridaDeCachorros.Console.csproj", "{B7BFE0A7-8308-4121-AB0C-EB8BCBEA7685}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CorridaDeCachorros", "CorridaDeCachorros\CorridaDeCachorros.csproj", "{89C3797F-C4E6-47A9-89CE-67EC752CA635}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CorridaDeCachorrosTests", "CorridaDeCachorrosTests\CorridaDeCachorrosTests.csproj", "{1ACEE3EB-8155-420C-80A4-15B279B9E6AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7BFE0A7-8308-4121-AB0C-EB8BCBEA7685}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7BFE0A7-8308-4121-AB0C-EB8BCBEA7685}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7BFE0A7-8308-4121-AB0C-EB8BCBEA7685}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7BFE0A7-8308-4121-AB0C-EB8BCBEA7685}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89C3797F-C4E6-47A9-89CE-67EC752CA635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89C3797F-C4E6-47A9-89CE-67EC752CA635}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89C3797F-C4E6-47A9-89CE-67EC752CA635}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89C3797F-C4E6-47A9-89CE-67EC752CA635}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ACEE3EB-8155-420C-80A4-15B279B9E6AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ACEE3EB-8155-420C-80A4-15B279B9E6AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ACEE3EB-8155-420C-80A4-15B279B9E6AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ACEE3EB-8155-420C-80A4-15B279B9E6AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B7BFE0A7-8308-4121-AB0C-EB8BCBEA7685} = {223F95DA-BDD6-4A0A-AB3F-CA4392F627B9}
+		{89C3797F-C4E6-47A9-89CE-67EC752CA635} = {830C1952-62F9-4777-B8CA-D86641F8B401}
+		{1ACEE3EB-8155-420C-80A4-15B279B9E6AD} = {94F5171B-A347-46BE-A0D3-38363A2D50E2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FB0C124D-1C03-4D08-8B60-EE10AC0C19E4}
+	EndGlobalSection
+EndGlobal
