@@ -9,16 +9,16 @@ CorridaDeCachorro corridaDeCachorro = new CorridaDeCachorro();
 
 Console.WriteLine("Vamos adicionar os corredores");
 
-corridaDeCachorro.AdicioneCorredores();
+corridaDeCachorro.AdicioneCorredoresConsole();
 
 Console.WriteLine("Vamos adicionar os apostadores");
-corridaDeCachorro.AdicioneApostadores();
+corridaDeCachorro.AdicioneApostadoresConsole();
 
 Console.WriteLine("Vamos realizar apostas");
-corridaDeCachorro.RealizarApostas();
+corridaDeCachorro.RealizarApostasConsole();
 
 Console.WriteLine("Correndo");
-Console.WriteLine(corridaDeCachorro.Correr());
+Console.WriteLine(await corridaDeCachorro.Correr());
 
 
 Console.WriteLine("Fim corrida");

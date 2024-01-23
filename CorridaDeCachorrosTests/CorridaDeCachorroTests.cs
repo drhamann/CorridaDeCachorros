@@ -149,7 +149,7 @@ public class CorridaDeCachorroTests
     }
 
     [Fact]
-    public void Deve_Executar_A_Corrida_E_Ter_Ganhadores()
+    public async Task Deve_Executar_A_Corrida_E_Ter_GanhadoresAsync()
     {
         //Arrange
         CorridaDeCachorro corridaDeCachorro = new CorridaDeCachorro(5);
@@ -161,7 +161,7 @@ public class CorridaDeCachorroTests
         }
 
         //Act
-        corridaDeCachorro.Correr();
+        await corridaDeCachorro.Correr();
 
         //Arrange
         corridaDeCachorro.Primeiro.Should().NotBeNull();

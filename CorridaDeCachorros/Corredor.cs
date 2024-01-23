@@ -1,11 +1,13 @@
 ﻿namespace CorridaDeCachorros;
 
-public class Corredor : BaseModel
+public class Corredor : BaseModel, ICorredor
 {
     private static readonly Random Random = new();
-
     private double _distanciaPercorrida { get; set; }
     public Posicoes Posicao { get; set; }
+    public DateTime HoraDaChegada { get; set; }
+    public DateTime HoraDaSaida { get; set; }
+    public TimeSpan TempoPercorrido { get; set; }
 
     public Corredor(int posicaoCorredor) : base()
     {
@@ -24,7 +26,7 @@ public class Corredor : BaseModel
         Posicao = Posicoes.NaoGanho;
     }
 
-    public virtual void Mover()
+    public virtual async Task Mover()
     {
         int distanciaPercorrida = Random.Next(1, 6);
 
@@ -34,5 +36,17 @@ public class Corredor : BaseModel
     public double DistanciaPercorrida()
     {
         return _distanciaPercorrida;
+    }
+
+    public async Task Correr()
+    {
+        HoraDaSaida = DateTime.Now;
+        do
+        {
+            await Mover();
+            Thread.Sleep(100);
+        } while (DistanciaPercorrida() < 100.00);
+        HoraDaChegada = DateTime.Now;
+        TempoPercorrido = HoraDaChegada - HoraDaSaida;
     }
 }

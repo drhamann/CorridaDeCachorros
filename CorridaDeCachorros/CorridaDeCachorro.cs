@@ -93,17 +93,11 @@ public class CorridaDeCachorro
         Apostar(apostador, cachorroCorredor, totalAposta);
     }
 
-    public string Correr()
+    public async Task<string> Correr()
     {
         VerificarRegrasDeApostadoresCorredores();
         VerificarSeTodosApostaram();
-
-        while (Corredores.Exists(corredor =>
-            corredor.DistanciaPercorrida() <= 100)
-            )
-        {
-            VerificarCorredoresEcorrer();
-        }
+        await VerificarCorredoresEcorrer();
 
         DefinirPremioGanhadores();
 
@@ -138,9 +132,9 @@ public class CorridaDeCachorro
 
     private void VerificarSeTodosApostaram()
     {
-        foreach ( var apostador in Apostadores )
+        foreach (var apostador in Apostadores)
         {
-            if(apostador.CachorroApostado.Equals(Guid.Empty))
+            if (apostador.CachorroApostado.Equals(Guid.Empty))
             {
                 throw new Exception("É necessario ter apostado para iniciar a corriga");
             }
@@ -166,39 +160,25 @@ public class CorridaDeCachorro
 
     }
 
-    private void VerificarCorredoresEcorrer()
+    private async Task VerificarCorredoresEcorrer()
     {
+        var tasks = new List<Task>();
         foreach (var corredor in Corredores)
         {
-            if(corredor.Posicao != Posicoes.NaoGanho)
-            {
-                continue;
-            }
-            corredor.Mover();
-
-            if (corredor.DistanciaPercorrida() >= 100.00)
-            {
-                if (Primeiro is null)
-                {
-                    corredor.Posicao = Posicoes.Primeiro;
-                    Primeiro = corredor;
-                    continue;
-                }
-                if (Segundo is null)
-                {
-                    corredor.Posicao = Posicoes.Segundo;
-                    Segundo = corredor;
-                    continue;
-                }
-                if (Terceiro is null)
-                {
-                    corredor.Posicao = Posicoes.Terceiro;
-                    Terceiro = corredor;
-                    continue;
-                }
-                corredor.Posicao = Posicoes.NaoGanho;
-            }
+            tasks.Add(Task.Run(async () => await corredor.Correr()));
         }
+        //Esperar finalizar todos
+        await Task.WhenAll(tasks);
+        Corredores = Corredores.OrderBy(corredor => corredor.TempoPercorrido).ToList();
+
+
+        Corredores[0].Posicao = Posicoes.Primeiro;
+        Primeiro = Corredores[0];
+        Corredores[1].Posicao = Posicoes.Segundo;
+        Segundo = Corredores[1];
+        Corredores[2].Posicao = Posicoes.Terceiro;
+        Terceiro = Corredores[2];
+
     }
 
     public void AdicionarCorredor(string nomeCachorro)
@@ -213,14 +193,14 @@ public class CorridaDeCachorro
         Apostadores.Add(apostador);
     }
 
-    public void AdicioneCorredores()
+    public void AdicioneCorredoresConsole()
     {
         var continuar = "s";
         do
         {
             Console.WriteLine("Diga o nome do canhorro : ");
             AdicionarCorredor(Console.ReadLine());
-            if(Corredores.Count >= NUMERO_MINIMO_DE_CORREDORES)
+            if (Corredores.Count >= NUMERO_MINIMO_DE_CORREDORES)
             {
                 Console.WriteLine("Gostaria de adicionar mais, 'S' para sim e 'N' para não.");
                 continuar = Console.ReadLine();
@@ -229,7 +209,7 @@ public class CorridaDeCachorro
         } while (continuar.ToLower().Equals("s"));
     }
 
-    public void AdicioneApostadores()
+    public void AdicioneApostadoresConsole()
     {
         var continuar = "s";
         do
@@ -245,7 +225,7 @@ public class CorridaDeCachorro
         } while (continuar.ToLower().Equals("s"));
     }
 
-    public void RealizarApostas()
+    public void RealizarApostasConsole()
     {
         foreach (var item in Corredores)
         {

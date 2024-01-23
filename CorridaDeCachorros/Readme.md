@@ -24,3 +24,4 @@
 - Alterar para não mais criar os corredores dinamicamente, mas ter a opção de adicionar eles antes de iniciar a corrida.
 - Criar um novo projeto em console para poder adicionar os apostadores e corredores, solicitar as apostas e rodar várias vezes a corrida antes digitar “exit”
 - Se ninguem apostou no corredor, o dinheiro deve retornar para a casa de apostas
+- Criar um projeto asp.net mvc para controlar a corrida, podendo adicionar jogadores, corredores, solicitar as apostas e rodar as corridas.
