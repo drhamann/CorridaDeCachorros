@@ -24,15 +24,30 @@ namespace CorridaDeCachorros.Mvc.Controllers
             string nomeCorredor, string nomeApostador, double valorAposta)
         {
             // Use the idDoCorredor parameter in your logic
-            CorridaDeCachorro.Apostar(nomeApostador,nomeCorredor,valorAposta);
+            CorridaDeCachorro.Apostar(nomeApostador, nomeCorredor, valorAposta);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public async Task<IActionResult> CorrerAsync()
         {
+            if (SumarioCorrida.Length != 0)
+            {
+                CorridaDeCachorro.ResetarCorrida();
+            }
             SumarioCorrida = await CorridaDeCachorro.Correr();
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public IActionResult NovaCorrida()
+        {
+            if (SumarioCorrida.Length != 0)
+            {
+                CorridaDeCachorro.ResetarCorrida();
+            }
+            return RedirectToAction("Index");
+        }
+
     }
 }

@@ -3,95 +3,165 @@
 @{
     ViewData["Title"] = Model.GUID;
     string sumario = ViewData["SumarioCorrida"].ToString();
-
+    var selected = @Model.Apostadores[0].Nome;
 }
-@if(string.IsNullOrEmpty(sumario) is false)
-{
-    <h1>Resultado corrida</h1>
-    <textarea>
-        @sumario
-    </textarea>
-}
-<div>
-    <h1> Apostas </h1>
-   <form asp-controller="CorridaDeCachorros" asp-action="Aposta" method="post">
 
-        <select id="nomeApostador" name="nomeApostador" class="form-select" aria-label="Selecione um Apostador">
-        <option selected>@Model.Apostadores[0].Nome</option>
-        @foreach (var item in Model.Apostadores)
-        {
-            <option value="@item.Nome">@item.Nome</option>
-        }
-    </select>
 
-        <select id="nomeCorredor" name="nomeCorredor" class="form-select" aria-label="Selecione um cachorro">
-        <option selected>@Model.Corredores[0].Nome</option>
-        @foreach (var item in Model.Corredores)
-        {
-            <option value="@item.Nome">@item.Nome</option>
-        }
-    </select>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <h1 class="display-4">Total de apostas @Model.ValorTotalDeApostas</h1>
+            </div>
+            <div class="col-md-6">
+                <h1 class="display-4">Valor sem ganhador @Model.ValorSemGanhador</h1>
+            </div>
+        </div>
+    </div>
 
-    <input type="number" id="valorAposta" name="valorAposta" placeholder="Aqui digita a sua aposta" value="5" />
-
-    <input class="btn" type="submit" value="Apostar" />
-</form>
- </div>
-
-  <form asp-controller="CorridaDeCachorros" asp-action="Correr" method="post">
-    <input class="btn" type="submit" value="Correr" />
-  </form>
-
-<div class=".col-md-4">
-    <h1> Cachorros </h1>
-    <br />
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Corredores![0].Nome)
-                </th>  
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Corredores!)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nome)
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col-md-1">
+            <form asp-controller="CorridaDeCachorros" asp-action="Correr" method="post">
+                <button disabled="@(string.IsNullOrEmpty(sumario) is false)" type="submit" class="btn btn-success">Correr</button>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <form asp-controller="CorridaDeCachorros" asp-action="NovaCorrida" method="post">
+                <button disabled="@(string.IsNullOrEmpty(sumario) is true)" type="submit" class="btn btn-success">Nova Corrida</button>
+            </form>
+        </div>
+    </div>
 </div>
 
-<div class=".col-md-4">
-    <h1> Apostadores </h1>
-    <br />
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Apostadores![0].Nome)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Apostadores![0].Saldo)
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Apostadores!)
-            {
+
+@if (!string.IsNullOrEmpty(sumario))
+{
+    <div class="container mt-5">
+        <h1 class="display-4">Resultado da Corrida</h1>
+        <div class="card">
+            <div class="card-body">
+                <textarea class="form-control" rows="5" readonly>@sumario</textarea>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.Apostadores.Exists(x => x.Apostou is false))
+{
+    <div class="container mt-5">
+        <h1 class="display-4">Apostas</h1>
+        <form asp-controller="CorridaDeCachorros" asp-action="Aposta" method="post">
+            <div class="form-group">
+                <label>Apostador:</label>
+
+                @foreach (var item in Model.Apostadores.OrderBy(x => x.Apostou is true))
+                {
+                    <div class="form-check form-check-inline">
+                        <input type="radio" id="@("apostador_" + item.Nome)" name="nomeApostador" class="form-check-input" value="@item.Nome" @(item.Apostou ? "disabled" : "") @(item.Apostou is false ? "checked" : "")>
+                        <label for="@("apostador_" + item.Nome)" class="form-check-label">@item.Nome @(item.Apostou ? "(Apostou)" : "")</label>
+                    </div>
+                }
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="nomeCorredor">Cachorro:</label>
+                <select id="nomeCorredor" name="nomeCorredor" class="form-select" aria-label="Selecione um cachorro">
+                    <option selected>@Model.Corredores[0].Nome</option>
+                    @foreach (var item in Model.Corredores)
+                    {
+                        <option value="@item.Nome">@item.Nome</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="valorAposta">Valor da Aposta:</label>
+                <input type="number" id="valorAposta" name="valorAposta" class="form-control" placeholder="Aqui digita a sua aposta" value="5" />
+            </div>
+
+            <div class="mt-3"></div>
+            <button type="submit" class="btn btn-primary">Apostar</button>
+        </form>
+
+        <div class="mt-3"></div>
+
+
+    </div>
+}
+
+
+<div class="row">
+    <div class="col-md-6">
+        <h1> Cachorros </h1>
+        <br />
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nome)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Saldo)
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Corredores![0].Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Corredores![0].Nome)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Corredores![0].Posicao)
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Corredores!)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Posicao)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-6">
+        <h1> Apostadores </h1>
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Apostadores![0].Nome)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Apostadores![0].Saldo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Apostadores![0].CachorroApostado)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Apostadores!)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Saldo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CachorroApostado)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
