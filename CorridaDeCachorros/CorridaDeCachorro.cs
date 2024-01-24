@@ -1,15 +1,16 @@
-﻿
-using System.Net;
-using System.Text;
+﻿using System.Text;
 
 namespace CorridaDeCachorros;
 
 public class CorridaDeCachorro
 {
+    public Guid GUID { get; set; }
+
     private const int NUMERO_MINIMO_DE_APOSTADORES = 5;
     private const int NUMERO_MINIMO_DE_CORREDORES = 4;
 
     public double ValorTotalDeApostas { get; set; } = 0.0;
+    public double ValorSemGanhador { get; set; } = 0.0;
     public List<Apostador> Apostadores { get; set; }
     public List<Corredor> Corredores { get; set; }
 
@@ -40,6 +41,7 @@ public class CorridaDeCachorro
 
     private void InicializarObjetos()
     {
+        GUID = Guid.NewGuid();
         Apostadores = new List<Apostador>();
         Corredores = new List<Corredor>();
     }
@@ -83,6 +85,7 @@ public class CorridaDeCachorro
         ValorTotalDeApostas += totalAposta;
         apostador.CachorroApostado = corredor.Id;
         apostador.Saldo -= totalAposta;
+        apostador.Apostou = true;
     }
 
     public void Apostar(string NomeApostador, string NomeCorredor, double totalAposta)
@@ -143,10 +146,8 @@ public class CorridaDeCachorro
 
     public void DefinirPremioGanhadores()
     {
-        var apostadoresEmPrimeiro
-        = Apostadores.FindAll(apostador => apostador.CachorroApostado.Equals(Primeiro.Id));
-        PrimeiroPremio =
-            new Premio(Posicoes.Primeiro, (ValorTotalDeApostas * 0.7), apostadoresEmPrimeiro);
+        var apostadoresEmPrimeiro = Apostadores.FindAll(apostador => apostador.CachorroApostado.Equals(Primeiro.Id));
+        PrimeiroPremio = new Premio(Posicoes.Primeiro, (ValorTotalDeApostas * 0.7), apostadoresEmPrimeiro);
 
         var apostadoresEmSegundo
             = Apostadores.FindAll(apostador => apostador.CachorroApostado.Equals(Segundo.Id));
@@ -157,6 +158,8 @@ public class CorridaDeCachorro
         = Apostadores.FindAll(apostador => apostador.CachorroApostado.Equals(Terceiro.Id));
         TerceiroPremio =
             new Premio(Posicoes.Terceiro, (ValorTotalDeApostas * 0.1), apostadoresEmTerceiro);
+
+        ValorSemGanhador += PrimeiroPremio.ValorBanca + SegundoPremio.ValorBanca + TerceiroPremio.ValorBanca;
 
     }
 
@@ -239,5 +242,15 @@ public class CorridaDeCachorro
             var aposta = Convert.ToDouble(Console.ReadLine());
             Apostar(apostador.Nome, corredor, aposta);
         }
+    }
+
+    public void ResetarCorrida()
+    {
+        Corredores.ForEach(x => x.Posicao = Posicoes.NaoGanho);
+        Apostadores.ForEach(x => x.Apostou = false);
+        PrimeiroPremio = null;
+        SegundoPremio = null;
+        TerceiroPremio = null;
+        ValorTotalDeApostas = ValorSemGanhador;
     }
 }

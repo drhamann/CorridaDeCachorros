@@ -16,11 +16,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Acesso a dados", "3 - A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Testes", "4 - Testes", "{94F5171B-A347-46BE-A0D3-38363A2D50E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorridaDeCachorros.Console", "CorridaDeCachorros.Console\CorridaDeCachorros.Console.csproj", "{B7BFE0A7-8308-4121-AB0C-EB8BCBEA7685}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CorridaDeCachorros.Console", "CorridaDeCachorros.Console\CorridaDeCachorros.Console.csproj", "{B7BFE0A7-8308-4121-AB0C-EB8BCBEA7685}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CorridaDeCachorros", "CorridaDeCachorros\CorridaDeCachorros.csproj", "{89C3797F-C4E6-47A9-89CE-67EC752CA635}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CorridaDeCachorrosTests", "CorridaDeCachorrosTests\CorridaDeCachorrosTests.csproj", "{1ACEE3EB-8155-420C-80A4-15B279B9E6AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorridaDeCachorros.Mvc", "CorridaDeCachorros.Mvc\CorridaDeCachorros.Mvc.csproj", "{BEBB9ED6-5F26-434F-B468-E511A1739B78}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +42,10 @@ Global
 		{1ACEE3EB-8155-420C-80A4-15B279B9E6AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1ACEE3EB-8155-420C-80A4-15B279B9E6AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1ACEE3EB-8155-420C-80A4-15B279B9E6AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEBB9ED6-5F26-434F-B468-E511A1739B78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEBB9ED6-5F26-434F-B468-E511A1739B78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEBB9ED6-5F26-434F-B468-E511A1739B78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEBB9ED6-5F26-434F-B468-E511A1739B78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{B7BFE0A7-8308-4121-AB0C-EB8BCBEA7685} = {223F95DA-BDD6-4A0A-AB3F-CA4392F627B9}
 		{89C3797F-C4E6-47A9-89CE-67EC752CA635} = {830C1952-62F9-4777-B8CA-D86641F8B401}
 		{1ACEE3EB-8155-420C-80A4-15B279B9E6AD} = {94F5171B-A347-46BE-A0D3-38363A2D50E2}
+		{BEBB9ED6-5F26-434F-B468-E511A1739B78} = {223F95DA-BDD6-4A0A-AB3F-CA4392F627B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FB0C124D-1C03-4D08-8B60-EE10AC0C19E4}
