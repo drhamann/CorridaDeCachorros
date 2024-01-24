@@ -3,7 +3,7 @@
 public class Corredor : BaseModel, ICorredor
 {
     private static readonly Random Random = new();
-    private double _distanciaPercorrida { get; set; }
+    public double _distanciaPercorrida { get; set; }
     public Posicoes Posicao { get; set; }
     public DateTime HoraDaChegada { get; set; }
     public DateTime HoraDaSaida { get; set; }
@@ -44,7 +44,7 @@ public class Corredor : BaseModel, ICorredor
         do
         {
             await Mover();
-            //Thread.Sleep(100);
+            Thread.Sleep(100);
         } while (DistanciaPercorrida() < 100.00);
         HoraDaChegada = DateTime.Now;
         TempoPercorrido = HoraDaChegada - HoraDaSaida;

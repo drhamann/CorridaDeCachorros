@@ -6,6 +6,9 @@ namespace CorridaDeCachorros.Mvc.Controllers
     {
         public CorridaDeCachorro CorridaDeCachorro { get; set; }
         public static string SumarioCorrida { get; set; } = string.Empty;
+
+        private static Task corridaEmExecucao { get; set; }
+
         public CorridaDeCachorrosController(
             CorridaDeCachorro corridaDeCachorro)
         {
@@ -15,6 +18,8 @@ namespace CorridaDeCachorros.Mvc.Controllers
         public IActionResult Index()
         {
             ViewData["SumarioCorrida"] = SumarioCorrida;
+            var corridaIniciou = corridaEmExecucao != null ? true : false;
+            ViewData["CorridaEmExecucao"] = corridaIniciou;
             return View(CorridaDeCachorro);
         }
 
@@ -31,11 +36,20 @@ namespace CorridaDeCachorros.Mvc.Controllers
         [HttpPost]
         public async Task<IActionResult> CorrerAsync()
         {
-            if (SumarioCorrida.Length != 0)
+            corridaEmExecucao = Task.Run(async () =>
             {
-                CorridaDeCachorro.ResetarCorrida();
-            }
-            SumarioCorrida = await CorridaDeCachorro.Correr();
+                if (SumarioCorrida.Length != 0)
+                {
+                    CorridaDeCachorro.ResetarCorrida();
+                }
+                SumarioCorrida = await CorridaDeCachorro.Correr();
+                Task.Run(() =>
+                {
+                    Thread.Sleep(200);
+                    corridaEmExecucao = null;
+                });
+            });
+
             return RedirectToAction("Index");
         }
 
@@ -45,6 +59,7 @@ namespace CorridaDeCachorros.Mvc.Controllers
             if (SumarioCorrida.Length != 0)
             {
                 CorridaDeCachorro.ResetarCorrida();
+                SumarioCorrida = string.Empty;
             }
             return RedirectToAction("Index");
         }

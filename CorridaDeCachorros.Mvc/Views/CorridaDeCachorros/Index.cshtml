@@ -4,6 +4,7 @@
     ViewData["Title"] = Model.GUID;
     string sumario = ViewData["SumarioCorrida"].ToString();
     var selected = @Model.Apostadores[0].Nome;
+    var corridaIniciou = ((bool)ViewData["CorridaEmExecucao"]);
 }
 
 
@@ -108,6 +109,9 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Corredores![0].Posicao)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Corredores![0]._distanciaPercorrida)
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -122,6 +126,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Posicao)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Corredores![0]._distanciaPercorrida)
                         </td>
                     </tr>
                 }
@@ -165,3 +172,19 @@
         </table>
     </div>
 </div>
+
+<script>
+    console.log("Página carregada");
+    function AtualizarPagina() {
+        console.log("Atualizando a página");
+        setTimeout("window.location.reload()", 1000);
+    }
+</script>
+
+@if (corridaIniciou)
+{
+    <script>
+        console.log("Corrida emexecucao");
+        AtualizarPagina()
+    </script>
+}
