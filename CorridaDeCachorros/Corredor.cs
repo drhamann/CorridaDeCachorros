@@ -38,13 +38,19 @@ public class Corredor : BaseModel, ICorredor
         return _distanciaPercorrida;
     }
 
+    public int DistanciaPercorridaWeb()
+    {
+        return ((int)Math.Round(_distanciaPercorrida) * 10) - 250;
+    }
+
     public async Task Correr()
     {
         HoraDaSaida = DateTime.Now;
         do
         {
             await Mover();
-            Thread.Sleep(100);
+
+            Thread.Sleep((int)DistanciaPercorrida() * 2);
         } while (DistanciaPercorrida() < 100.00);
         HoraDaChegada = DateTime.Now;
         TempoPercorrido = HoraDaChegada - HoraDaSaida;

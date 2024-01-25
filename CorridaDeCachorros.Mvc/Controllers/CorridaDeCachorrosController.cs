@@ -64,5 +64,12 @@ namespace CorridaDeCachorros.Mvc.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public IActionResult AdicionarCachorro([Bind("nome_cachorro")] string nome_cachorro)
+        {
+            CorridaDeCachorro.AdicionarCorredor(nome_cachorro);
+
+            return RedirectToAction("Index");
+        }
     }
 }
