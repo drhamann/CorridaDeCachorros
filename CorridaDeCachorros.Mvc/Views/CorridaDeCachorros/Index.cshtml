@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = Model.GUID;
     string sumario = ViewData["SumarioCorrida"].ToString();
-    var selected = @Model.Apostadores[0].Nome;
+    var corridaIniciou = ((bool)ViewData["CorridaEmExecucao"]);
 }
 
 
@@ -56,6 +56,7 @@
 
                 @foreach (var item in Model.Apostadores.OrderBy(x => x.Apostou is true))
                 {
+
                     <div class="form-check form-check-inline">
                         <input type="radio" id="@("apostador_" + item.Nome)" name="nomeApostador" class="form-check-input" value="@item.Nome" @(item.Apostou ? "disabled" : "") @(item.Apostou is false ? "checked" : "")>
                         <label for="@("apostador_" + item.Nome)" class="form-check-label">@item.Nome @(item.Apostou ? "(Apostou)" : "")</label>
@@ -68,6 +69,9 @@
             <div class="form-group">
                 <label for="nomeCorredor">Cachorro:</label>
                 <select id="nomeCorredor" name="nomeCorredor" class="form-select" aria-label="Selecione um cachorro">
+                    @{
+                        var selected = @Model.Corredores[0].Nome;
+                    }
                     <option selected>@Model.Corredores[0].Nome</option>
                     @foreach (var item in Model.Corredores)
                     {
@@ -91,77 +95,131 @@
     </div>
 }
 
+<div class="container mt-5 d-flex flex-column">
+    @foreach (var item in Model.Corredores)
+    {
+
+        <div style="margin-bottom: 20px;">
+            <h2>@item.Nome</h2>
+            <h3>@item.DistanciaPercorrida()</h3>
+            <div class="text-center">
+                <img src="~/svg/cachorro.svg"
+                     class="rounded"
+                     style="transform: translateX(@(item.DistanciaPercorridaWeb())px);">
+            </div>
+        </div>
+    }
+</div>
 
 <div class="row">
     <div class="col-md-6">
-        <h1> Cachorros </h1>
-        <br />
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Corredores![0].Id)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Corredores![0].Nome)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Corredores![0].Posicao)
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Corredores!)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nome)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Posicao)
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-    <div class="col-md-6">
-        <h1> Apostadores </h1>
-        <br />
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Apostadores![0].Nome)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Apostadores![0].Saldo)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Apostadores![0].CachorroApostado)
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Apostadores!)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nome)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Saldo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CachorroApostado)
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <form asp-controller="CorridaDeCachorros" asp-action="AdicionarCachorro" method="post">
+            <div class="mb-3">
+                <label for="nome_cachorro" class="form-label">Nome do cachorro</label>
+                <input type="text" class="form-control" id="nome_cachorro" name="nome_cachorro" placeholder="Digite o nome do cachorro">
+            </div>
+            <button type="submit" class="btn btn-primary">Adicionar</button>
+        </form>
     </div>
 </div>
+
+<div class="row">
+    @if (Model.Corredores.Any())
+    {
+        <div class="col-md-6">
+            <h1> Cachorros </h1>
+            <br />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Corredores![0].Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Corredores![0].Nome)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Corredores![0].Posicao)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Corredores![0]._distanciaPercorrida)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Corredores!)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Posicao)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item._distanciaPercorrida)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    @if (Model.Apostadores.Any())
+    {
+        <div class="col-md-6">
+            <h1> Apostadores </h1>
+            <br />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Apostadores![0].Nome)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Apostadores![0].Saldo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Apostadores![0].CachorroApostado)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Apostadores!)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Saldo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CachorroApostado)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<script>
+    console.log("Página carregada");
+    function AtualizarPagina() {
+        console.log("Atualizando a página");
+        setTimeout("window.location.reload()", 1000);
+    }
+</script>
+
+@if (corridaIniciou)
+{
+    <script>
+        console.log("Corrida emexecucao");
+        AtualizarPagina()
+    </script>
+}

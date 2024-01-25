@@ -28,8 +28,8 @@ public class CorridaDeCachorro
     }
 
     public CorridaDeCachorro
-        (int numeroDeApostadores = 5,
-         int numeroDeCorredores = 4
+        (int numeroDeApostadores,
+         int numeroDeCorredores
         )
     {
         InicializarObjetos();
@@ -246,8 +246,16 @@ public class CorridaDeCachorro
 
     public void ResetarCorrida()
     {
-        Corredores.ForEach(x => x.Posicao = Posicoes.NaoGanho);
-        Apostadores.ForEach(x => x.Apostou = false);
+        Corredores.ForEach(x =>
+        {
+            x.Posicao = Posicoes.NaoGanho;
+            x._distanciaPercorrida = 0;
+        });
+        Apostadores.ForEach(x =>
+        {
+            x.Apostou = false;
+            x.CachorroApostado = Guid.Empty;
+        });
         PrimeiroPremio = null;
         SegundoPremio = null;
         TerceiroPremio = null;
