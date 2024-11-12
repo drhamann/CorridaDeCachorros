@@ -50,7 +50,7 @@ public class Corredor : BaseModel, ICorredor
         {
             await Mover();
 
-            Thread.Sleep((int)DistanciaPercorrida() * 2);
+            //Thread.Sleep((int)DistanciaPercorrida() * 2);
         } while (DistanciaPercorrida() < 100.00);
         HoraDaChegada = DateTime.Now;
         TempoPercorrido = HoraDaChegada - HoraDaSaida;

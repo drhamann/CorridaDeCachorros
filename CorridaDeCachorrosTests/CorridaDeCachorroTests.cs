@@ -1,5 +1,5 @@
-﻿using Xunit;
-using FluentAssertions;
+﻿using FluentAssertions;
+using Xunit;
 
 namespace CorridaDeCachorros.Tests;
 
@@ -13,7 +13,7 @@ public class CorridaDeCachorroTests
 
         //Act
         CorridaDeCachorro corridaDeCachorro
-            = new CorridaDeCachorro(expectedApostadores);
+            = new CorridaDeCachorro(expectedApostadores, 4);
 
         //Assert
         corridaDeCachorro.Apostadores.Count.Should().Be(expectedApostadores);
@@ -28,7 +28,7 @@ public class CorridaDeCachorroTests
         //Act
         try
         {
-            var corridaDeCachorro = new CorridaDeCachorro(expectedApostadores);
+            var corridaDeCachorro = new CorridaDeCachorro(expectedApostadores, 4);
         }
         catch (ArgumentException ex)
         {
@@ -44,7 +44,7 @@ public class CorridaDeCachorroTests
 
         //Act
         CorridaDeCachorro corridaDeCachorro
-            = new CorridaDeCachorro(5);
+            = new CorridaDeCachorro(5, 4);
 
         //Assert
         corridaDeCachorro.Corredores.Count.Should().Be(expectedCorredores);
@@ -71,7 +71,7 @@ public class CorridaDeCachorroTests
     public void Deve_Os_Corredores_Mover_Entre_Dezcm_E_Sessentacm()
     {
         //Arrange
-        var corridaDeCachorro = new CorridaDeCachorro(5);
+        var corridaDeCachorro = new CorridaDeCachorro(5, 4);
         double distanciaEsperadaMaiorQue = 0.1;
         double distanciaEsperadaMenorQue = 0.6;
 
@@ -90,7 +90,7 @@ public class CorridaDeCachorroTests
     public void Deve_Permetir_O_Apostador_Escolher_Um_Corredor()
     {
         //Arrange
-        var corridaDeCachorro = new CorridaDeCachorro(5);
+        var corridaDeCachorro = new CorridaDeCachorro(5, 4);
         var corredorEsperado = corridaDeCachorro.Corredores.First();
         var apostadorEsperado = corridaDeCachorro.Apostadores.First();
         var valorDaAposta = 10;
@@ -107,20 +107,20 @@ public class CorridaDeCachorroTests
     public void Deve_Permetir_O_Apostador_Escolher_Um_Corredor_Pelos_Nomes()
     {
         //Arrange
-        var corridaDeCachorro = new CorridaDeCachorro(5);
+        var corridaDeCachorro = new CorridaDeCachorro(5, 4);
         var nomeDoApostador = "Apostador-1";
-        var nomeDoCorredor = "Corredor-3"; 
+        var nomeDoCorredor = "Corredor-3";
         var valorDaAposta = 10;
 
 
-        var apostadorExperado = 
+        var apostadorExperado =
         corridaDeCachorro.Apostadores.Find(apostador => apostador.Nome.Equals(nomeDoApostador));
 
-        var cachorroEsperado 
+        var cachorroEsperado
         = corridaDeCachorro.Corredores.Find(corredor => corredor.Nome.Equals(nomeDoCorredor));
 
         //Act
-        corridaDeCachorro.Apostar(nomeDoApostador, nomeDoCorredor,valorDaAposta);
+        corridaDeCachorro.Apostar(nomeDoApostador, nomeDoCorredor, valorDaAposta);
 
         //Assert
         apostadorExperado.CachorroApostado.Should().Be(cachorroEsperado.Id);
@@ -132,27 +132,27 @@ public class CorridaDeCachorroTests
     public void Deve_Executar_A_Corrida_E_Algum_Corredor_Finalizar_Ela()
     {
         //Arrange
-        CorridaDeCachorro corridaDeCachorro = new CorridaDeCachorro(5);
+        CorridaDeCachorro corridaDeCachorro = new CorridaDeCachorro(5, 4);
         Random random = new Random();
         foreach (var apostador in corridaDeCachorro.Apostadores)
         {
-            var cachorro = random.Next(0,corridaDeCachorro.Corredores.Count - 1);
+            var cachorro = random.Next(0, corridaDeCachorro.Corredores.Count - 1);
             corridaDeCachorro.Apostar(apostador, corridaDeCachorro.Corredores[cachorro], 5.0);
         }
 
         //Act
-        corridaDeCachorro.Correr();
+        corridaDeCachorro.Correr().Wait();
 
         //Arrange
         corridaDeCachorro.Corredores.Exists(corredor => corredor.DistanciaPercorrida() >= 100.0).Should().BeTrue();
-       
+
     }
 
     [Fact]
     public async Task Deve_Executar_A_Corrida_E_Ter_GanhadoresAsync()
     {
         //Arrange
-        CorridaDeCachorro corridaDeCachorro = new CorridaDeCachorro(5);
+        CorridaDeCachorro corridaDeCachorro = new CorridaDeCachorro(5, 4);
         Random random = new Random();
         foreach (var apostador in corridaDeCachorro.Apostadores)
         {
@@ -174,7 +174,7 @@ public class CorridaDeCachorroTests
     public void Deve_Premiar_Os_Tres_Ganhadores()
     {
         //Arrange
-        CorridaDeCachorro corridaDeCachorro = new CorridaDeCachorro(5);
+        CorridaDeCachorro corridaDeCachorro = new CorridaDeCachorro(5, 4);
         corridaDeCachorro.Apostadores[0].CachorroApostado = corridaDeCachorro.Corredores[0].Id;
         corridaDeCachorro.Apostadores[1].CachorroApostado = corridaDeCachorro.Corredores[1].Id;
         corridaDeCachorro.Apostadores[2].CachorroApostado = corridaDeCachorro.Corredores[2].Id;
@@ -188,7 +188,7 @@ public class CorridaDeCachorroTests
         corridaDeCachorro.Segundo = corridaDeCachorro.Corredores[1];
 
         corridaDeCachorro.Corredores[2].Posicao = Posicoes.Terceiro;
-        corridaDeCachorro.Terceiro = corridaDeCachorro.Corredores[2]; 
+        corridaDeCachorro.Terceiro = corridaDeCachorro.Corredores[2];
 
         //Act
         corridaDeCachorro.DefinirPremioGanhadores();

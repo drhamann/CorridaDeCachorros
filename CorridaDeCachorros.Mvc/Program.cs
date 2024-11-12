@@ -4,7 +4,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<CorridaDeCachorro>();
+
+builder.Services.AddSingleton<CorridaDeCachorro>(new CorridaDeCachorro(5, 5));
 
 var app = builder.Build();
 

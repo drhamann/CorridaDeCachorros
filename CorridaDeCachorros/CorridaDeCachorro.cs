@@ -201,7 +201,7 @@ public class CorridaDeCachorro
         var continuar = "s";
         do
         {
-            Console.WriteLine("Diga o nome do canhorro : ");
+            Console.WriteLine("Diga o nome do cachorro : ");
             AdicionarCorredor(Console.ReadLine());
             if (Corredores.Count >= NUMERO_MINIMO_DE_CORREDORES)
             {
